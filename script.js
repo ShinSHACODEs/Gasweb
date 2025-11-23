@@ -25,12 +25,28 @@ let vitalSigns = [
     icon: "💨",
   },
   {
+    title: "ไนตรัสออกไซด์",
+    value: "...",
+    unit: "ppb",
+    description: "ระดับก๊าซไนตรัสออกไซด์ในชั้นบรรยากาศ (กำลังโหลดข้อมูล...)",
+    trend: "เพิ่มขึ้น",
+    icon: "🌬️",
+  },
+  {
     title: "น้ำแข็งขั้วโลกละลาย",
     value: "-150",
     unit: "พันล้านตัน/ปี",
     description: "อัตราการสูญเสียน้ำแข็งในแอนตาร์กติกา",
     trend: "ลดลง",
     icon: "🧊",
+  },
+  {
+    title: "น้ำแข็งอาร์กติก",
+    value: "...",
+    unit: "ล้าน ตร.กม.",
+    description: "พื้นที่น้ำแข็งอาร์กติกเฉลี่ย (กำลังโหลดข้อมูล...)",
+    trend: "ลดลง",
+    icon: "❄️",
   },
   {
     title: "ระดับน้ำทะเลสูงขึ้น",
@@ -43,18 +59,10 @@ let vitalSigns = [
   {
     title: "มหาสมุทรดูดซับความร้อน",
     value: "+345",
-    unit: "เซตตาจูล",
+    unit: "ZJ",
     description: "พลังงานความร้อนที่มหาสมุทรดูดซับตั้งแต่ปี 1955",
     trend: "เพิ่มขึ้น",
-    icon: "🔥",
-  },
-  {
-    title: "น้ำแข็งกรีนแลนด์ละลาย",
-    value: "-270",
-    unit: "พันล้านตัน/ปี",
-    description: "อัตราการสูญเสียน้ำแข็งในกรีนแลนด์",
-    trend: "ลดลง",
-    icon: "❄️",
+    icon: "🌏",
   },
   {
     title: "ความเป็นกรดของมหาสมุทร",
@@ -77,62 +85,82 @@ window.addEventListener("load", () => {
   }, 1500)
 })
 
-// Fetch Climate Data from APIs
+// Fetch Climate Data
 async function fetchClimateData() {
   try {
-    // Fetch CO2 data
+    // CO2
     const co2Response = await fetch("https://global-warming.org/api/co2-api")
     const co2Data = await co2Response.json()
     if (co2Data.co2 && co2Data.co2.length > 0) {
-      const latestCO2 = co2Data.co2[co2Data.co2.length - 1]
-      const co2Value = Number.parseFloat(latestCO2.trend).toFixed(2)
-      const co2Date = `${latestCO2.month}/${latestCO2.year}`
-
-      vitalSigns = vitalSigns.map((sign) =>
-        sign.icon === "🏭"
-          ? { ...sign, value: co2Value, description: `ระดับคาร์บอนไดออกไซด์ในชั้นบรรยากาศ` }
-          : sign,
+      const latest = co2Data.co2.at(-1)
+      const value = Number.parseFloat(latest.trend).toFixed(2)
+      vitalSigns = vitalSigns.map((s) =>
+        s.icon === "🏭" ? { ...s, value, description: "ระดับคาร์บอนไดออกไซด์ในชั้นบรรยากาศ" } : s
       )
     }
 
-    // Fetch Methane data
+    // Methane
     const methaneResponse = await fetch("https://global-warming.org/api/methane-api")
     const methaneData = await methaneResponse.json()
     if (methaneData.methane && methaneData.methane.length > 1) {
-      const latestMethane = methaneData.methane[methaneData.methane.length - 1]
-      const methaneValue = Number.parseFloat(latestMethane.average).toFixed(0)
-      const methaneDate = latestMethane.date
-
-      vitalSigns = vitalSigns.map((sign) =>
-        sign.icon === "💨"
-          ? { ...sign, value: methaneValue, description: `ระดับก๊าซมีเทนในชั้นบรรยากาศ` }
-          : sign,
+      const latest = methaneData.methane.at(-1)
+      const value = Number.parseFloat(latest.average).toFixed(0)
+      vitalSigns = vitalSigns.map((s) =>
+        s.icon === "💨" ? { ...s, value, description: "ระดับก๊าซมีเทนในชั้นบรรยากาศ" } : s
       )
     }
 
-    // Fetch Temperature data
+    // Temperature
     const tempResponse = await fetch("https://global-warming.org/api/temperature-api")
     const tempData = await tempResponse.json()
     if (tempData.result && tempData.result.length > 0) {
-      const latestTemp = tempData.result[tempData.result.length - 1]
-      const tempValue = Number.parseFloat(latestTemp.land).toFixed(2)
-      const tempDate = latestTemp.time
-
-      vitalSigns = vitalSigns.map((sign) =>
-        sign.icon === "🌡️"
-          ? {
-              ...sign,
-              value: tempValue > 0 ? `+${tempValue}` : tempValue,
-              description: `อุณหภูมิเฉลี่ยของโลกเพิ่มขึ้นเมื่อเทียบกับยุคก่อนอุตสาหกรรม`,
-            }
-          : sign,
+      const latest = tempData.result.at(-1)
+      const value = Number.parseFloat(latest.land).toFixed(2)
+      vitalSigns = vitalSigns.map((s) =>
+        s.icon === "🌡️"
+          ? { ...s, value: value > 0 ? `+${value}` : value, description: "อุณหภูมิเฉลี่ยของโลกเพิ่มขึ้นเมื่อเทียบกับยุคก่อนอุตสาหกรรม" }
+          : s
       )
     }
 
-    console.log("✅ ดึงข้อมูลจาก NASA Climate APIs สำเร็จ")
+    // Nitrous Oxide
+    const n2oResponse = await fetch("https://global-warming.org/api/nitrous-oxide-api")
+    const n2oData = await n2oResponse.json()
+    if (n2oData.nitrous && n2oData.nitrous.length > 0) {
+      const latest = n2oData.nitrous.at(-1)
+      const value = Number.parseFloat(latest.average).toFixed(0)
+      vitalSigns = vitalSigns.map((s) =>
+        s.icon === "🌬️" ? { ...s, value, description: "ระดับก๊าซไนตรัสออกไซด์ในชั้นบรรยากาศ" } : s
+      )
+    }
+
+    // Ocean Warming
+    const oceanResponse = await fetch("https://global-warming.org/api/ocean-warming-api")
+    const oceanData = await oceanResponse.json()
+    if (oceanData.result && oceanData.result.length > 0) {
+      const latest = oceanData.result.at(-1)
+      const value = Number.parseFloat(latest.heat).toFixed(0)
+      vitalSigns = vitalSigns.map((s) =>
+        s.icon === "🌏" ? { ...s, value, description: "พลังงานความร้อนที่มหาสมุทรสะสมเพิ่มขึ้น" } : s
+      )
+    }
+
+    // Arctic Ice
+    const arcticResponse = await fetch("https://global-warming.org/api/arctic-api")
+    const arcticData = await arcticResponse.json()
+    if (arcticData.arcticData && arcticData.arcticData.length > 0) {
+      const latest = arcticData.arcticData.at(-1)
+      const value = Number.parseFloat(latest.extent).toFixed(2)
+      vitalSigns = vitalSigns.map((s) =>
+        s.icon === "❄️" ? { ...s, value, description: "พื้นที่น้ำแข็งอาร์กติกเฉลี่ยต่อปี" } : s
+      )
+    }
+
+    console.log("✅ อัปเดตข้อมูล Climate APIs ครบทั้งหมดแล้ว")
     renderCarousel()
+
   } catch (error) {
-    console.error("❌ เกิดข้อผิดพลาดในการดึงข้อมูล:", error)
+    console.error("❌ ดึงข้อมูลล้มเหลว:", error)
     renderCarousel()
   }
 }
@@ -146,28 +174,24 @@ function renderCarousel() {
   dots.innerHTML = ""
 
   vitalSigns.forEach((sign, index) => {
-    // Create card
     const card = document.createElement("div")
     card.className = "vital-card"
     card.innerHTML = `
-            <div class="vital-card-content">
-                <div class="vital-card-icon">${sign.icon}</div>
-                <h3 class="vital-card-title">${sign.title}</h3>
-                <div class="vital-card-value">
-                    ${sign.value} <span class="vital-card-unit">${sign.unit}</span>
-                </div>
-                <p class="vital-card-description">${sign.description}</p>
-                <div class="vital-card-trend ${sign.trend === "เพิ่มขึ้น" ? "trend-up" : "trend-down"}">
-                    แนวโน้ม: ${sign.trend}
-                </div>
-            </div>
-        `
+      <div class="vital-card-content">
+        <div class="vital-card-icon">${sign.icon}</div>
+        <h3 class="vital-card-title">${sign.title}</h3>
+        <div class="vital-card-value">
+          ${sign.value} <span class="vital-card-unit">${sign.unit}</span>
+        </div>
+        <p class="vital-card-description">${sign.description}</p>
+        <div class="vital-card-trend ${sign.trend === "เพิ่มขึ้น" ? "trend-up" : "trend-down"}">
+          แนวโน้ม: ${sign.trend}
+        </div>
+      </div>`
     track.appendChild(card)
 
-    // Create dot
     const dot = document.createElement("button")
     dot.className = `dot ${index === 0 ? "active" : ""}`
-    dot.setAttribute("aria-label", `Go to slide ${index + 1}`)
     dot.addEventListener("click", () => updateCarousel(index))
     dots.appendChild(dot)
   })
@@ -179,20 +203,17 @@ function updateCarousel(index) {
   const track = document.getElementById("carousel-track")
   track.style.transform = `translateX(-${currentIndex * 100}%)`
 
-  // Update dots
-  const dots = document.querySelectorAll(".dot")
-  dots.forEach((dot, i) => {
+  document.querySelectorAll(".dot").forEach((dot, i) => {
     dot.classList.toggle("active", i === currentIndex)
   })
 
-  // Reset auto-play
   if (autoPlayInterval) {
     clearInterval(autoPlayInterval)
     startAutoPlay()
   }
 }
 
-// Start Auto-play
+// Auto-play
 function startAutoPlay() {
   autoPlayInterval = setInterval(() => {
     currentIndex = (currentIndex + 1) % vitalSigns.length
@@ -200,7 +221,7 @@ function startAutoPlay() {
   }, 5000)
 }
 
-// Navigation buttons
+// Navigation
 document.getElementById("prev-btn").addEventListener("click", () => {
   currentIndex = (currentIndex - 1 + vitalSigns.length) % vitalSigns.length
   updateCarousel(currentIndex)
