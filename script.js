@@ -34,19 +34,11 @@ let vitalSigns = [
   },
   {
     title: "น้ำแข็งขั้วโลกละลาย",
-    value: "-150",
+    value: "-135",
     unit: "พันล้านตัน/ปี",
-    description: "อัตราการสูญเสียน้ำแข็งในแอนตาร์กติกา",
+    description: "อัตราการสูญเสียน้ำแข็งในแอนตาร์กติกาจาก Nasa",
     trend: "ลดลง",
     icon: "🧊",
-  },
-  {
-    title: "น้ำแข็งอาร์กติก",
-    value: "...",
-    unit: "ล้าน ตร.กม.",
-    description: "พื้นที่น้ำแข็งอาร์กติกเฉลี่ย (กำลังโหลดข้อมูล...)",
-    trend: "ลดลง",
-    icon: "❄️",
   },
   {
     title: "ระดับน้ำทะเลสูงขึ้น",
@@ -57,19 +49,19 @@ let vitalSigns = [
     icon: "🌊",
   },
   {
-    title: "มหาสมุทรดูดซับความร้อน",
-    value: "+345",
-    unit: "ZJ",
+    title: "มหาสมุทรดูดซับความร้อนปีละ",
+    value: "+16 ± 8",
+    unit: "ZJ(Zettajoule)",
     description: "พลังงานความร้อนที่มหาสมุทรดูดซับตั้งแต่ปี 1955",
     trend: "เพิ่มขึ้น",
     icon: "🌏",
   },
   {
     title: "ความเป็นกรดของมหาสมุทร",
-    value: "+30",
-    unit: "%",
-    description: "ความเป็นกรดของมหาสมุทรเพิ่มขึ้นตั้งแต่ยุคก่อนอุตสาหกรรม",
-    trend: "เพิ่มขึ้น",
+    value: "8.1",
+    unit: "ph",
+    description: "คาดการณ์ว่าค่า pH จะลดลงไปอีก 0.2-0.3 หน่วย ซึ่งอาจส่งผลกระทบอย่างร้ายแรงต่อระบบนิเวศทางทะเล",
+    trend: "ลดลง",
     icon: "🧪",
   },
 ]
@@ -144,18 +136,7 @@ async function fetchClimateData() {
         s.icon === "🌏" ? { ...s, value, description: "พลังงานความร้อนที่มหาสมุทรสะสมเพิ่มขึ้น" } : s
       )
     }
-
-    // Arctic Ice
-    const arcticResponse = await fetch("https://global-warming.org/api/arctic-api")
-    const arcticData = await arcticResponse.json()
-    if (arcticData.arcticData && arcticData.arcticData.length > 0) {
-      const latest = arcticData.arcticData.at(-1)
-      const value = Number.parseFloat(latest.extent).toFixed(2)
-      vitalSigns = vitalSigns.map((s) =>
-        s.icon === "❄️" ? { ...s, value, description: "พื้นที่น้ำแข็งอาร์กติกเฉลี่ยต่อปี" } : s
-      )
-    }
-
+    
     console.log("✅ อัปเดตข้อมูล Climate APIs ครบทั้งหมดแล้ว")
     renderCarousel()
 
