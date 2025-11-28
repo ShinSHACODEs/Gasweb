@@ -1,12 +1,51 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ผลกระทบของก๊าซเรือนกระจกต่อโลก</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Prompt:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
+    <!-- Scroll Progress -->
+    <div class="scroll-progress-container">
+        <div class="scroll-progress-bar" id="scroll-progress"></div>
+    </div>
+
+    <!-- News Sidebar (Right - Global) -->
+    <aside class="news-sidebar right" id="news-sidebar">
+        <div class="news-header">
+            <h3>🌍 Global News</h3>
+            <span class="news-source">via The Guardian</span>
+        </div>
+        <div class="news-content" id="news-content">
+            <div class="news-loading">
+                <div class="spinner"></div>
+                <p>Loading...</p>
+            </div>
+        </div>
+    </aside>
+
+    <!-- News Sidebar (Left - Thai) -->
+    <aside class="news-sidebar left" id="thai-news-sidebar">
+        <div class="news-header">
+            <h3>🇹🇭 ข่าวโลกร้อน</h3>
+            <span class="news-source">via Google News</span>
+        </div>
+        <div class="news-content" id="thai-news-content">
+            <div class="news-loading">
+                <div class="spinner"></div>
+                <p>กำลังโหลด...</p>
+            </div>
+        </div>
+    </aside>
     <!-- Loading Screen -->
     <div id="loading-screen">
         <div class="earth-spinner">🌍</div>
@@ -36,13 +75,15 @@
                     </div>
 
                     <button id="prev-btn" class="carousel-btn prev-btn" aria-label="Previous">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
                             <polyline points="15 18 9 12 15 6"></polyline>
                         </svg>
                     </button>
 
                     <button id="next-btn" class="carousel-btn next-btn" aria-label="Next">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
                             <polyline points="9 18 15 12 9 6"></polyline>
                         </svg>
                     </button>
@@ -67,7 +108,8 @@
                         <div class="gas-content">
                             <p><strong>คืออะไร:</strong> ก๊าซที่เกิดจากการเผาไหม้เชื้อเพลิงฟอสซิล</p>
                             <p><strong>แหล่งที่มา:</strong> โรงงานอุตสาหกรรม รถยนต์ การผลิตไฟฟ้า การตัดไม้ทำลายป่า</p>
-                            <p><strong>ผลกระทบ:</strong> ดักจับความร้อนในชั้นบรรยากาศ ทำให้อุณหภูมิโลกสูงขึ้น คิดเป็น 76% ของก๊าซเรือนกระจกทั้งหมด</p>
+                            <p><strong>ผลกระทบ:</strong> ดักจับความร้อนในชั้นบรรยากาศ ทำให้อุณหภูมิโลกสูงขึ้น คิดเป็น
+                                76% ของก๊าซเรือนกระจกทั้งหมด</p>
                         </div>
                     </div>
 
@@ -78,7 +120,8 @@
                         <div class="gas-content">
                             <p><strong>คืออะไร:</strong> ก๊าซที่มีความสามารถดักจับความร้อนสูงกว่า CO₂ ถึง 28 เท่า</p>
                             <p><strong>แหล่งที่มา:</strong> การเลี้ยงสัตว์ นาข้าว หลุมฝังกลบขยะ การผลิตก๊าซธรรมชาติ</p>
-                            <p><strong>ผลกระทบ:</strong> แม้มีปริมาณน้อยกว่า CO₂ แต่มีพลังในการสร้างภาวะเรือนกระจกสูงกว่ามาก คิดเป็น 16% ของก๊าซเรือนกระจก</p>
+                            <p><strong>ผลกระทบ:</strong> แม้มีปริมาณน้อยกว่า CO₂
+                                แต่มีพลังในการสร้างภาวะเรือนกระจกสูงกว่ามาก คิดเป็น 16% ของก๊าซเรือนกระจก</p>
                         </div>
                     </div>
 
@@ -88,8 +131,10 @@
                         <h3>ไนตรัสออกไซด์ (N₂O)</h3>
                         <div class="gas-content">
                             <p><strong>คืออะไร:</strong> ก๊าซที่มีความสามารถดักจับความร้อนสูงกว่า CO₂ ถึง 265 เท่า</p>
-                            <p><strong>แหล่งที่มา:</strong> ปุ๋ยเคมีในการเกษตร การเผาไหม้เชื้อเพลิง กระบวนการอุตสาหกรรม</p>
-                            <p><strong>ผลกระทบ:</strong> ทำลายชั้นโอโซน และสร้างภาวะเรือนกระจกที่รุนแรง คิดเป็น 6% ของก๊าซเรือนกระจก</p>
+                            <p><strong>แหล่งที่มา:</strong> ปุ๋ยเคมีในการเกษตร การเผาไหม้เชื้อเพลิง กระบวนการอุตสาหกรรม
+                            </p>
+                            <p><strong>ผลกระทบ:</strong> ทำลายชั้นโอโซน และสร้างภาวะเรือนกระจกที่รุนแรง คิดเป็น 6%
+                                ของก๊าซเรือนกระจก</p>
                         </div>
                     </div>
                 </div>
@@ -146,10 +191,8 @@
         <footer>
             <div class="container">
                 <div class="powerbi-button-container">
-                    <a href="https://app.powerbi.com/view?r=eyJrIjoiYmVmOWYwOTctMGI3OC00OGU2LWEwMjgtNDk1ZTJhZDU4ZTNkIiwidCI6IjhlNjM0ZTY3LTlkNjYtNDZkMi1hNTI5LWUxYjcwOGM1ZDhiYyIsImMiOjEwfQ%3D%3D&pageName=fd5f87831181342e2001" 
-                       target="_blank" 
-                       rel="noopener noreferrer" 
-                       class="powerbi-button">
+                    <a href="https://app.powerbi.com/view?r=eyJrIjoiYmVmOWYwOTctMGI3OC00OGU2LWEwMjgtNDk1ZTJhZDU4ZTNkIiwidCI6IjhlNjM0ZTY3LTlkNjYtNDZkMi1hNTI5LWUxYjcwOGM1ZDhiYyIsImMiOjEwfQ%3D%3D&pageName=fd5f87831181342e2001"
+                        target="_blank" rel="noopener noreferrer" class="powerbi-button">
                         📊 PowerBI Dashboard
                     </a>
                 </div>
@@ -161,4 +204,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>
