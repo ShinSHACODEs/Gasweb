@@ -136,7 +136,7 @@ async function fetchClimateData() {
         s.icon === "🌏" ? { ...s, value, description: "พลังงานความร้อนที่มหาสมุทรสะสมเพิ่มขึ้น" } : s
       )
     }
-    
+
     console.log("✅ อัปเดตข้อมูล Climate APIs ครบทั้งหมดแล้ว")
     renderCarousel()
 
@@ -214,5 +214,151 @@ document.getElementById("next-btn").addEventListener("click", () => {
 })
 
 // Initialize
+// Initialize
 fetchClimateData()
 startAutoPlay()
+fetchNews()
+fetchThaiNews()
+
+// Scroll Progress Bar
+window.addEventListener("scroll", () => {
+  const winScroll = document.body.scrollTop || document.documentElement.scrollTop
+  const height = document.documentElement.scrollHeight - document.documentElement.clientHeight
+  const scrolled = (winScroll / height) * 100
+  document.getElementById("scroll-progress").style.width = scrolled + "%"
+})
+
+// Fetch Global News (The Guardian)
+async function fetchNews() {
+  const newsContent = document.getElementById("news-content")
+  const RSS_URL = "https://www.theguardian.com/environment/climate-crisis/rss"
+  const API_URL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_URL)}`
+
+  try {
+    const response = await fetch(API_URL)
+    const data = await response.json()
+
+    if (data.status === "ok" && data.items.length > 0) {
+      newsContent.innerHTML = "" // Clear loading state
+
+      data.items.slice(0, 10).forEach((item) => {
+        const newsItem = document.createElement("a")
+        newsItem.className = "news-item"
+        newsItem.href = item.link
+        newsItem.target = "_blank"
+        newsItem.rel = "noopener noreferrer"
+
+        // Try to extract image from content or enclosure
+        let imageUrl = "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80" // Fallback
+        if (item.enclosure && item.enclosure.link) {
+          imageUrl = item.enclosure.link
+        } else if (item.thumbnail) {
+          imageUrl = item.thumbnail
+        }
+
+        const date = new Date(item.pubDate).toLocaleDateString("en-US", {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        })
+
+        newsItem.innerHTML = `
+          <img src="${imageUrl}" alt="${item.title}" loading="lazy">
+          <h4>${item.title}</h4>
+          <span class="news-item-date">📅 ${date}</span>
+        `
+        newsContent.appendChild(newsItem)
+      })
+    } else {
+      throw new Error("No news items found")
+    }
+  } catch (error) {
+    console.error("Failed to fetch global news:", error)
+    newsContent.innerHTML = `
+      <div class="news-loading">
+        <p>Unable to load news.</p>
+      </div>
+    `
+  }
+}
+
+// Fetch Thai News (Google News)
+async function fetchThaiNews() {
+  const newsContent = document.getElementById("thai-news-content")
+  // Google News RSS for "Global Warming" in Thai
+  const RSS_URL = "https://news.google.com/rss/search?q=โลกร้อน&hl=th&gl=TH&ceid=TH:th"
+  const API_URL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_URL)}`
+
+  try {
+    const response = await fetch(API_URL)
+    const data = await response.json()
+
+    if (data.status === "ok" && data.items.length > 0) {
+      newsContent.innerHTML = "" // Clear loading state
+
+      data.items.slice(0, 10).forEach((item) => {
+        const newsItem = document.createElement("a")
+        newsItem.className = "news-item"
+        newsItem.href = item.link
+        newsItem.target = "_blank"
+        newsItem.rel = "noopener noreferrer"
+
+        // Google News RSS doesn't usually provide images in a standard way that rss2json parses easily for thumbnails.
+        // We'll use a generic environment placeholder or try to find one.
+        // For now, let's use a random nature image from Unsplash to keep it looking good.
+        const randomId = Math.floor(Math.random() * 1000)
+        let imageUrl = `https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=800&q=80&random=${randomId}`
+
+        if (item.enclosure && item.enclosure.link) {
+          imageUrl = item.enclosure.link
+        }
+
+        const date = new Date(item.pubDate).toLocaleDateString("th-TH", {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        })
+
+        newsItem.innerHTML = `
+          <img src="${imageUrl}" alt="${item.title}" loading="lazy">
+          <h4>${item.title}</h4>
+          <span class="news-item-date">📅 ${date}</span>
+        `
+        newsContent.appendChild(newsItem)
+      })
+    } else {
+      throw new Error("No Thai news items found")
+    }
+  } catch (error) {
+    console.error("Failed to fetch Thai news:", error)
+    newsContent.innerHTML = `
+      <div class="news-loading">
+        <p>ไม่สามารถโหลดข่าวได้ในขณะนี้</p>
+      </div>
+    `
+  }
+}
+
+// Intersection Observer for Fade-in Animations
+const observerOptions = {
+  root: null,
+  rootMargin: "0px",
+  threshold: 0.1,
+}
+
+const observer = new IntersectionObserver((entries, observer) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = "1"
+      entry.target.style.transform = "translateY(0)"
+      observer.unobserve(entry.target)
+    }
+  })
+}, observerOptions)
+
+document.querySelectorAll("section").forEach((section) => {
+  section.style.opacity = "0"
+  section.style.transform = "translateY(20px)"
+  section.style.transition = "opacity 0.6s ease-out, transform 0.6s ease-out"
+  observer.observe(section)
+})
