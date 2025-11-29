@@ -1,16 +1,37 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ผลกระทบของก๊าซเรือนกระจกต่อโลก</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress-container">
+        <div class="scroll-progress-bar" id="scroll-progress"></div>
+    </div>
+
     <!-- Loading Screen -->
     <div id="loading-screen">
         <div class="earth-spinner">🌍</div>
     </div>
+
+    <!-- Thai News Sidebar (Right) -->
+    <aside class="news-sidebar right">
+        <div class="news-header">
+            <h3>📰 ข่าวโลกร้อน</h3>
+            <span class="news-source">Google News Thailand</span>
+        </div>
+        <div class="news-content" id="thai-news-content">
+            <div class="news-loading">
+                <div class="spinner"></div>
+                <p>กำลังโหลดข่าว...</p>
+            </div>
+        </div>
+    </aside>
 
     <!-- Main Content -->
     <main id="main-content" style="display: none;">
@@ -31,25 +52,23 @@
                 <p class="subtitle">ตัวชี้วัดสำคัญของการเปลี่ยนแปลงสภาพภูมิอากาศ</p>
 
                 <div class="carousel-container">
-                    <div id="carousel-track" class="carousel-track">
-                        <!-- Cards will be dynamically inserted here -->
-                    </div>
+                    <div id="carousel-track" class="carousel-track"></div>
 
                     <button id="prev-btn" class="carousel-btn prev-btn" aria-label="Previous">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
                             <polyline points="15 18 9 12 15 6"></polyline>
                         </svg>
                     </button>
 
                     <button id="next-btn" class="carousel-btn next-btn" aria-label="Next">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
                             <polyline points="9 18 15 12 9 6"></polyline>
                         </svg>
                     </button>
 
-                    <div id="carousel-dots" class="carousel-dots">
-                        <!-- Dots will be dynamically inserted here -->
-                    </div>
+                    <div id="carousel-dots" class="carousel-dots"></div>
                 </div>
             </div>
         </section>
@@ -58,38 +77,35 @@
         <section class="greenhouse-gases">
             <div class="container">
                 <h2>ก๊าซเรือนกระจกที่สำคัญ</h2>
-
                 <div class="gas-grid">
-                    <!-- CO2 -->
                     <div class="gas-card">
                         <div class="gas-icon">🏭</div>
                         <h3>คาร์บอนไดออกไซด์ (CO₂)</h3>
                         <div class="gas-content">
                             <p><strong>คืออะไร:</strong> ก๊าซที่เกิดจากการเผาไหม้เชื้อเพลิงฟอสซิล</p>
                             <p><strong>แหล่งที่มา:</strong> โรงงานอุตสาหกรรม รถยนต์ การผลิตไฟฟ้า การตัดไม้ทำลายป่า</p>
-                            <p><strong>ผลกระทบ:</strong> ดักจับความร้อนในชั้นบรรยากาศ ทำให้อุณหภูมิโลกสูงขึ้น คิดเป็น 76% ของก๊าซเรือนกระจกทั้งหมด</p>
+                            <p><strong>ผลกระทบ:</strong> ดักจับความร้อนในชั้นบรรยากาศ ทำให้อุณหภูมิโลกสูงขึ้น คิดเป็น
+                                76% ของก๊าซเรือนกระจกทั้งหมด</p>
                         </div>
                     </div>
 
-                    <!-- CH4 -->
                     <div class="gas-card">
                         <div class="gas-icon">🐄</div>
                         <h3>มีเทน (CH₄)</h3>
                         <div class="gas-content">
-                            <p><strong>คืออะไร:</strong> ก๊าซที่มีความสามารถดักจับความร้อนสูงกว่า CO₂ ถึง 27.3 เท่า</p>
-                            <p><strong>แหล่งที่มา:</strong> การเลี้ยงสัตว์ นาข้าว หลุมฝังกลบขยะ การผลิตก๊าซธรรมชาติ</p>
-                            <p><strong>ผลกระทบ:</strong> แม้มีปริมาณน้อยกว่า CO₂ แต่มีพลังในการสร้างภาวะเรือนกระจกสูงกว่ามาก คิดเป็น 16% ของก๊าซเรือนกระจก</p>
+                            <p><strong>คืออะไร:</strong> ก๊าซที่ดักจับความร้อนได้มากกว่า CO₂ ถึง 28 เท่า</p>
+                            <p><strong>แหล่งที่มา:</strong> การเลี้ยงสัตว์ นาข้าว หลุมฝังกลบขยะ</p>
+                            <p><strong>ผลกระทบ:</strong> มีพลังสร้างภาวะเรือนกระจกสูง คิดเป็น 16% ของก๊าซเรือนกระจก</p>
                         </div>
                     </div>
 
-                    <!-- N2O -->
                     <div class="gas-card">
                         <div class="gas-icon">🌾</div>
                         <h3>ไนตรัสออกไซด์ (N₂O)</h3>
                         <div class="gas-content">
-                            <p><strong>คืออะไร:</strong> ก๊าซที่มีความสามารถดักจับความร้อนสูงกว่า CO₂ ถึง 273 เท่า</p>
-                            <p><strong>แหล่งที่มา:</strong> ปุ๋ยเคมีในการเกษตร การเผาไหม้เชื้อเพลิง กระบวนการอุตสาหกรรม</p>
-                            <p><strong>ผลกระทบ:</strong> ทำลายชั้นโอโซน และสร้างภาวะเรือนกระจกที่รุนแรง คิดเป็น 6% ของก๊าซเรือนกระจก</p>
+                            <p><strong>คืออะไร:</strong> ก๊าซที่ดักจับความร้อนสูงกว่า CO₂ ถึง 265 เท่า</p>
+                            <p><strong>แหล่งที่มา:</strong> ปุ๋ยเคมี การเผาไหม้เชื้อเพลิง</p>
+                            <p><strong>ผลกระทบ:</strong> ทำลายชั้นโอโซน คิดเป็น 6% ของก๊าซเรือนกระจก</p>
                         </div>
                     </div>
                 </div>
@@ -100,44 +116,81 @@
         <section class="global-warming">
             <div class="container">
                 <h2>ภาวะโลกร้อนคืออะไร</h2>
-
                 <div class="warming-grid">
                     <div class="warming-card causes">
-                        <h3>🌡️ สาเหตุของภาวะโลกร้อน</h3>
+                        <h3>🌡️ สาเหตุ</h3>
                         <ul>
-                            <li>การเผาไหม้เชื้อเพลิงฟอสซิล (ถ่านหิน น้ำมัน ก๊าซธรรมชาติ)</li>
-                            <li>การตัดไม้ทำลายป่า ทำให้ต้นไม้ดูดซับ CO₂ ได้น้อยลง</li>
-                            <li>การเลี้ยงสัตว์ขนาดใหญ่ ปล่อยก๊าซมีเทนจำนวนมาก</li>
-                            <li>กิจกรรมอุตสาหกรรมและการผลิตที่ปล่อยก๊าซเรือนกระจก</li>
+                            <li>การเผาไหม้เชื้อเพลิงฟอสซิล</li>
+                            <li>การตัดไม้ทำลายป่า</li>
+                            <li>การเลี้ยงสัตว์</li>
+                            <li>กิจกรรมอุตสาหกรรม</li>
                         </ul>
                     </div>
 
                     <div class="warming-card effects">
-                        <h3>🌍 ผลกระทบของภาวะโลกร้อน</h3>
+                        <h3>🌍 ผลกระทบ</h3>
                         <ul>
-                            <li>อุณหภูมิโลกเพิ่มสูงขึ้น ทำให้เกิดคลื่นความร้อนรุนแรง</li>
-                            <li>น้ำแข็งขั้วโลกละลาย ระดับน้ำทะเลสูงขึ้น</li>
-                            <li>ภัยพิบัติทางธรรมชาติรุนแรงขึ้น (พายุ น้ำท่วม ภัยแล้ง)</li>
-                            <li>ระบบนิเวศเปลี่ยนแปลง สัตว์และพืชสูญพันธุ์</li>
-                            <li>ผลกระทบต่อสุขภาพ เกษตรกรรม และเศรษฐกิจ</li>
+                            <li>อุณหภูมิโลกสูงขึ้น</li>
+                            <li>น้ำแข็งขั้วโลกละลาย</li>
+                            <li>ภัยพิบัติรุนแรงขึ้น</li>
+                            <li>ระบบนิเวศเสื่อมถอย</li>
                         </ul>
                     </div>
                 </div>
 
                 <div class="solutions-card">
-                    <h3>🌱 แนวทางแก้ไขและลดผลกระทบ</h3>
+                    <h3>🌱 แนวทางแก้ไข</h3>
                     <div class="solutions-grid">
                         <ul>
-                            <li>ใช้พลังงานทดแทน (พลังงานแสงอาทิตย์ ลม น้ำ)</li>
-                            <li>ลดการใช้เชื้อเพลิงฟอสซิล เปลี่ยนมาใช้รถยนต์ไฟฟ้า</li>
-                            <li>ปลูกป่าและอนุรักษ์ป่าไม้</li>
+                            <li>ใช้พลังงานทดแทน</li>
+                            <li>ลดการใช้เชื้อเพลิงฟอสซิล</li>
+                            <li>ปลูกป่า</li>
                         </ul>
                         <ul>
-                            <li>ลดการบริโภคเนื้อสัตว์ เพิ่มพืชผักในอาหาร</li>
-                            <li>ประหยัดพลังงาน ลดขยะ และรีไซเคิล</li>
-                            <li>สนับสนุนนโยบายและเทคโนโลยีที่เป็นมิตรต่อสิ่งแวดล้อม</li>
+                            <li>ลดการบริโภคเนื้อสัตว์</li>
+                            <li>ลดขยะและรีไซเคิล</li>
+                            <li>สนับสนุนเทคโนโลยีสะอาด</li>
                         </ul>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- References Section (CREAM COLOR) -->
+        <section class="references" style="background-color:#f7f2e8; padding:40px 0; margin-top:40px;">
+            <div class="container">
+                <h2 style="text-align:center; margin-bottom:20px; color:#333;">แหล่งอ้างอิง</h2>
+                <p style="text-align:center; color:#555; margin-bottom:30px;">
+                    ข้อมูลจากองค์กรสิ่งแวดล้อมและงานวิจัยระดับโลก</p>
+
+                <div class="ref-grid"
+                    style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:20px;">
+                    <a href="https://climatetrace.org/" target="_blank" class="ref-card"
+                        style="background:#fff; padding:15px; border-radius:10px; text-align:center; text-decoration:none; color:#222; box-shadow:0 2px 6px rgba(0,0,0,0.1);">Climate
+                        Trace</a>
+                    <a href="https://ourworldindata.org/" target="_blank" class="ref-card"
+                        style="background:#fff; padding:15px; border-radius:10px; text-align:center; text-decoration:none; color:#222; box-shadow:0 2px 6px rgba(0,0,0,0.1);">Our
+                        World in Data</a>
+                    <a href="https://carbonmapper.org/" target="_blank" class="ref-card"
+                        style="background:#fff; padding:15px; border-radius:10px; text-align:center; text-decoration:none; color:#222; box-shadow:0 2px 6px rgba(0,0,0,0.1);">Carbon
+                        Mapper</a>
+                    <a href="https://carbonmonitor.org/" target="_blank" class="ref-card"
+                        style="background:#fff; padding:15px; border-radius:10px; text-align:center; text-decoration:none; color:#222; box-shadow:0 2px 6px rgba(0,0,0,0.1);">Carbon
+                        Monitor</a>
+                    <a href="https://www.climatewatchdata.org/" target="_blank" class="ref-card"
+                        style="background:#fff; padding:15px; border-radius:10px; text-align:center; text-decoration:none; color:#222; box-shadow:0 2px 6px rgba(0,0,0,0.1);">Climate
+                        Watch</a>
+                    <a href="https://www.climatiq.io/docs/guides/understanding/what-is-an-emission-factor"
+                        target="_blank" class="ref-card"
+                        style="background:#fff; padding:15px; border-radius:10px; text-align:center; text-decoration:none; color:#222; box-shadow:0 2px 6px rgba(0,0,0,0.1);">Climatiq
+                        Docs</a>
+                    <a href="https://unfccc.int/process-and-meetings/the-paris-agreement" target="_blank"
+                        class="ref-card"
+                        style="background:#fff; padding:15px; border-radius:10px; text-align:center; text-decoration:none; color:#222; box-shadow:0 2px 6px rgba(0,0,0,0.1);">Paris
+                        Agreement (UNFCCC)</a>
+                    <a href="https://www.tmd.go.th/climate/daily" target="_blank" class="ref-card"
+                        style="background:#fff; padding:15px; border-radius:10px; text-align:center; text-decoration:none; color:#222; box-shadow:0 2px 6px rgba(0,0,0,0.1);">กรมอุตุนิยมวิทยา
+                    </a>
                 </div>
             </div>
         </section>
@@ -146,12 +199,8 @@
         <footer>
             <div class="container">
                 <div class="powerbi-button-container">
-                    <a href="https://app.powerbi.com/view?r=eyJrIjoiYmVmOWYwOTctMGI3OC00OGU2LWEwMjgtNDk1ZTJhZDU4ZTNkIiwidCI6IjhlNjM0ZTY3LTlkNjYtNDZkMi1hNTI5LWUxYjcwOGM1ZDhiYyIsImMiOjEwfQ%3D%3D&pageName=fd5f87831181342e2001" 
-                       target="_blank" 
-                       rel="noopener noreferrer" 
-                       class="powerbi-button">
-                        📊 PowerBI Dashboard
-                    </a>
+                    <a href="https://app.powerbi.com/view?r=eyJrIjoiYmVmOWYwOTctMGI3OC00OGU2LWEwMjgtNDk1ZTJhZDU4ZTNkIiwidCI6IjhlNjM0ZTY3LTlkNjYtNDZkMi1hNTI5LWUxYjcwOGM1ZDhiYyIsImMiOjEwfQ%3D%3D&pageName=fd5f87831181342e2001"
+                        target="_blank" rel="noopener noreferrer" class="powerbi-button">📊 PowerBI Dashboard</a>
                 </div>
                 <p>ข้อมูลเพิ่มเติม Dashboard และรายละเอียดสำคัญของโปรเจค | สร้างเพื่อการศึกษาและสร้างความตระหนักรู้</p>
                 <p class="footer-subtitle">ร่วมกันดูแลโลกของเราเพื่ออนาคตที่ยั่งยืน 🌍</p>
@@ -161,4 +210,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>
